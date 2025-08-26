@@ -9,4 +9,6 @@ def home():
 
 if __name__ == "__main__":
         debug_mode = os.environ.get("DEBUG_MODE")
-        app.run(debug=debug_mode)
+        host = os.environ.get("HOST", "0.0.0.0")
+        port = os.environ.get("PORT", 5000)
+        app.run(debug=debug_mode, host=host, port=port)

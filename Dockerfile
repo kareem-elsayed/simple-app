@@ -38,6 +38,8 @@ USER appuser
 ENV PATH="/opt/venv/bin:$PATH"
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
+ENV HOST=0.0.0.0
+ENV PORT=5000
 ENV PYTHONPATH=/app
 
 # Expose port
