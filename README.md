@@ -17,7 +17,6 @@ app/
 charts/
   simple-app/
     Chart.yaml
-    values.yaml
     values-prod.yaml
     values-qa.yaml
     templates/
@@ -69,7 +68,6 @@ Access the app at [http://localhost:8080](http://localhost:8080)
 
 ## Endpoints
 - `GET /` : Returns hello message and environment name
-- `GET /db-status` : Returns database connection status
 
 ## Testing
 Unit tests are written using `pytest` and located in `app/test_app.py`. To run tests locally:
