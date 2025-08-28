@@ -27,6 +27,7 @@ This document explains the GitHub Actions workflow used to build, test, and depl
 ## How Environment Is Selected
 - **main/master branch**: Deploys to `prod` namespace with `values-prod.yaml`
 - **Other branches**: Deploys to `qa` namespace with `values-qa.yaml`
+- **Manual trigger (workflow_dispatch)**: You can deploy any branch to `prod` by running the workflow manually from the GitHub Actions UI and specifying the branch name.
 
 ## How Image Tagging Works
 - Docker images are tagged with both `latest` and the commit SHA

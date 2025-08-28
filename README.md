@@ -84,5 +84,6 @@ GitHub Actions is used for automated testing, Docker image building, and deploym
 - The app is deployed to a Kubernetes cluster via SSH and Helm:
   - Deploys to `prod` namespace for `main`/`master` branch
   - Deploys to `qa` namespace for other branches
+- You can also manually trigger a deployment to `prod` for any branch using the GitHub Actions UI (workflow_dispatch).
 
 See `.github/workflows/deploy.yaml` for details.
