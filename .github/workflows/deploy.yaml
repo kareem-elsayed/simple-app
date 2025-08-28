@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
-            cd /path/to/your/repo
+            cd simple-service/
             git pull
             if [[ "$GITHUB_REF" == "refs/heads/master" || "$GITHUB_REF" == "refs/heads/main" ]]; then
               echo "Deploying to prod namespace..."
