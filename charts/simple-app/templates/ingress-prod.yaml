@@ -5,9 +5,14 @@ metadata:
   name: {{ include "simple-app.fullname" . }}-prod
   namespace: {{ .Release.Namespace }}
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+    cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - {{ .Values.ingress.prodHost }}
+      secretName: {{ include "simple-app.fullname" . }}-prod-tls
   rules:
     - host: {{ .Values.ingress.prodHost | quote }}
       http:
