@@ -17,7 +17,6 @@ app/
 charts/
   simple-app/
     Chart.yaml
-    values.yaml
     values-prod.yaml
     values-qa.yaml
     templates/
@@ -69,3 +68,21 @@ Access the app at [http://localhost:8080](http://localhost:8080)
 
 ## Endpoints
 - `GET /` : Returns hello message and environment name
+
+## Testing
+Unit tests are written using `pytest` and located in `app/test_app.py`. To run tests locally:
+
+```bash
+pip install -r app/requirements.txt
+pytest app/
+```
+
+## CI/CD Workflow
+GitHub Actions is used for automated testing, Docker image building, and deployment:
+- On every push or PR, tests are run using pytest.
+- If tests pass, a Docker image is built and pushed to Docker Hub with both `latest` and commit SHA tags.
+- The app is deployed to a Kubernetes cluster via SSH and Helm:
+  - Deploys to `prod` namespace for `main`/`master` branch
+  - Deploys to `qa` namespace for other branches
+
+See `.github/workflows/deploy.yaml` for details.
