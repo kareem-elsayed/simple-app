@@ -65,8 +65,8 @@ Access the app at [http://localhost:8080](http://localhost:8080)
 ## Ingress and External Access
 The application is exposed externally via Traefik ingress with the following hostnames:
 
-- **QA Environment**: [simple-service-qa.gitlift.com](http://simple-service-qa.gitlift.com)
-- **Production Environment**: [simple-service-prod.gitlift.com](http://simple-service-prod.gitlift.com)
+- **QA Environment**: [simple-service-qa.gitlift.com](https://simple-service-qa.gitlift.com)
+- **Production Environment**: [simple-service-prod.gitlift.com](https://simple-service-prod.gitlift.com)
 
 ### Ingress Configuration
 - Uses Traefik as the ingress controller
