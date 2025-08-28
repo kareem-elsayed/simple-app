@@ -4,11 +4,6 @@ A basic Python Flask web application, containerized with Docker and deployable t
 
 **🚀 Currently running on a k3s cluster hosted in a VM**
 
-## Featurese-app
-
-A basic Python Flask web application, containerized with Docker and deployable to Kubernetes using Helm.
-
-**🚀 Currently running on a k3s cluster hosted in a VM at **
 
 ## Features
 - One endpoint:
