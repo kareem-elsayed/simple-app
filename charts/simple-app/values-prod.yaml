@@ -70,7 +70,7 @@ ingress:
   enabled: true
   className: "traefik"
   annotations:
-    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web
   prodHost: simple-service-prod.gitlift.com
 
 resources:

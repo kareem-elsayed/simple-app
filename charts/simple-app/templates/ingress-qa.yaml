@@ -4,8 +4,9 @@ metadata:
   name: {{ include "simple-app.fullname" . }}-qa
   namespace: {{ .Release.Namespace }}
   annotations:
-    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
+  ingressClassName: traefik
   rules:
     - host: {{ .Values.ingress.qaHost | quote }}
       http:
@@ -14,6 +15,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "simple-app.fullname" . }}-qa
+                name: {{ include "simple-app.fullname" . }}
                 port:
                   number: {{ .Values.service.port }}
