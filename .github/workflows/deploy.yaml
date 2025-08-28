@@ -51,16 +51,18 @@ jobs:
         shell: bash
 
 
+
       - name: Deploy to QA or Prod via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
+          envs: GITHUB_REF_NAME
           script: |
             cd simple-app/
             git pull
-            if [[ "$GITHUB_REF" == "refs/heads/master" || "$GITHUB_REF" == "refs/heads/main" ]]; then
+            if [[ "$GITHUB_REF_NAME" == "main" || "$GITHUB_REF_NAME" == "master" ]]; then
               echo "Deploying to prod namespace..."
               helm upgrade --install simple-app-prod ./charts/simple-app \
                 --set image.tag=${{ github.sha }} \
@@ -75,3 +77,5 @@ jobs:
                 --namespace qa \
                 --create-namespace
             fi
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
