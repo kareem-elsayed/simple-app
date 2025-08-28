@@ -33,7 +33,9 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: keko00/simple-app:latest
+          tags: |
+            keko00/simple-app:latest
+            keko00/simple-app:${{ github.sha }}
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
