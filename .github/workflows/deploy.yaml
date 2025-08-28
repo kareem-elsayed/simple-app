@@ -84,7 +84,6 @@ jobs:
           script: |
             git clone git@github.com:kareem-elsayed/simple-app.git
             cd simple-app/
-            git pull origin ${INPUT_BRANCH:-$GITHUB_REF_NAME}
             if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
               echo "Manual dispatch: Deploying ${INPUT_BRANCH} to prod namespace..."
               git checkout ${INPUT_BRANCH}
