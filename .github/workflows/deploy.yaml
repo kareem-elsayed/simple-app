@@ -10,6 +10,12 @@ on:
     branches:
       - master
       - main
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy to prod'
+        required: true
+        default: 'main'
 
 jobs:
   build-push-deploy:
@@ -74,11 +80,19 @@ jobs:
           host: ${{ secrets.VM_HOST }}
           username: ${{ secrets.VM_USER }}
           key: ${{ secrets.VM_SSH_KEY }}
-          envs: GITHUB_REF_NAME
+          envs: GITHUB_REF_NAME, GITHUB_EVENT_NAME, INPUT_BRANCH
           script: |
             cd simple-app/
-            git pull
-            if [[ "$GITHUB_REF_NAME" == "main" || "$GITHUB_REF_NAME" == "master" ]]; then
+            git pull origin ${INPUT_BRANCH:-$GITHUB_REF_NAME}
+            if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
+              echo "Manual dispatch: Deploying ${INPUT_BRANCH} to prod namespace..."
+              git checkout ${INPUT_BRANCH}
+              helm upgrade --install simple-app-prod ./charts/simple-app \
+                --set image.tag=${{ github.sha }} \
+                -f ./charts/simple-app/values-prod.yaml \
+                --namespace prod \
+                --create-namespace
+            elif [[ "$GITHUB_REF_NAME" == "main" || "$GITHUB_REF_NAME" == "master" ]]; then
               echo "Deploying to prod namespace..."
               helm upgrade --install simple-app-prod ./charts/simple-app \
                 --set image.tag=${{ github.sha }} \
@@ -95,3 +109,5 @@ jobs:
             fi
         env:
           GITHUB_REF_NAME: ${{ github.ref_name }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          INPUT_BRANCH: ${{ github.event.inputs.branch }}
