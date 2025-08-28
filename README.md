@@ -62,6 +62,18 @@ kubectl port-forward svc/simple-app-prod 8080:80 -n prod
 ```
 Access the app at [http://localhost:8080](http://localhost:8080)
 
+## Ingress and External Access
+The application is exposed externally via Traefik ingress with the following hostnames:
+
+- **QA Environment**: [simple-service-qa.gitlift.com](http://simple-service-qa.gitlift.com)
+- **Production Environment**: [simple-service-prod.gitlift.com](http://simple-service-prod.gitlift.com)
+
+### Ingress Configuration
+- Uses Traefik as the ingress controller
+- Conditional deployment: only the appropriate ingress is created for each environment
+- QA deploys `ingress-qa.yaml` when `qaHost` is defined in `values-qa.yaml`
+- Prod deploys `ingress-prod.yaml` when `prodHost` is defined in `values-prod.yaml`
+
 ## Environment Configuration
 - The environment name is stored as a Kubernetes Secret and injected as the `ENV_NAME` environment variable.
 - Change the value in `values-qa.yaml` or `values-prod.yaml` under `secrets.envName` as needed.
