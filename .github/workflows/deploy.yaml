@@ -50,20 +50,28 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > kubeconfig
         shell: bash
 
-      - name: Deploy to QA or Prod
-        env:
-          KUBECONFIG: ${{ github.workspace }}/kubeconfig
-        run: |
-          if [[ "$GITHUB_REF" == "refs/heads/master" || "$GITHUB_REF" == "refs/heads/main" ]]; then
-            echo "Deploying to prod namespace..."
-            helm upgrade --install simple-app-prod ./charts/simple-app \
-              -f ./charts/simple-app/values-prod.yaml \
-              --namespace prod \
-              --create-namespace
-          else
-            echo "Deploying to qa namespace..."
-            helm upgrade --install simple-app-qa ./charts/simple-app \
-              -f ./charts/simple-app/values-qa.yaml \
-              --namespace qa \
-              --create-namespace
-          fi
+
+      - name: Deploy to QA or Prod via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd /path/to/your/repo
+            git pull
+            if [[ "$GITHUB_REF" == "refs/heads/master" || "$GITHUB_REF" == "refs/heads/main" ]]; then
+              echo "Deploying to prod namespace..."
+              helm upgrade --install simple-app-prod ./charts/simple-app \
+                --set image.tag=${{ github.sha }} \
+                -f ./charts/simple-app/values-prod.yaml \
+                --namespace prod \
+                --create-namespace
+            else
+              echo "Deploying to qa namespace..."
+              helm upgrade --install simple-app-qa ./charts/simple-app \
+                --set image.tag=${{ github.sha }} \
+                -f ./charts/simple-app/values-qa.yaml \
+                --namespace qa \
+                --create-namespace
+            fi
