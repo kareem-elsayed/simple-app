@@ -68,15 +68,10 @@ service:
 # This block is for setting up the ingress for more information can be found here: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: true
-  className: "nginx"
+  className: "traefik"
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-  hosts:
-    - host: simple-app-prod.example.com
-      paths:
-        - path: /
-          pathType: Prefix
-  tls: []
+    kubernetes.io/ingress.class: traefik
+  prodHost: simple-service-prod.gitlift.com
 
 resources:
   limits:
