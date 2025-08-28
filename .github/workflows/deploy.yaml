@@ -59,6 +59,7 @@ jobs:
           key: ${{ secrets.VM_SSH_KEY }}
           script: |
             cd fanco/simple-service/
+            pwd
             git pull
             if [[ "$GITHUB_REF" == "refs/heads/master" || "$GITHUB_REF" == "refs/heads/main" ]]; then
               echo "Deploying to prod namespace..."
