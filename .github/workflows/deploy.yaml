@@ -1,8 +1,6 @@
-on:
-
 name: Build, Push, and Deploy
 
-
+on:
   workflow_dispatch:
     inputs:
       branch:
@@ -18,11 +16,11 @@ name: Build, Push, and Deploy
     branches:
       - master
       - main
+
 jobs:
   build-push-deploy:
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -72,8 +70,6 @@ jobs:
         run: |
           echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 --decode > kubeconfig
         shell: bash
-
-
 
       - name: Deploy to QA or Prod via SSH
         uses: appleboy/ssh-action@v0.1.10
